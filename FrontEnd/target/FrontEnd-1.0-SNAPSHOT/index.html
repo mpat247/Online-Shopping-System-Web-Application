@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ESHOP.com</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>
+    body{
+        background-color:#85c1e9  
+    }
+    </style>
+    </head>
+    <body>
+        
+            <div style ="position:absolute; left:1000px; top:50px;">
+                <form action="FrontEnd" method="post">
+                <input type="hidden" name="pageName" value="login"/>
+                <input type="text" placeholder="Username" name="username">
+                <input type="password" placeholder="Password" name="psw">
+                <button type="submit">Login</button>
+                </form>
+                <form action="registration.jsp">
+                    <input type="submit" value="Sign up" />
+                </form>
+
+            </div>
+        
+        
+            
+        <img src='resources/ESHOP.png' alt="ESHOP" style='width:150px'>
+        <div style ="position:absolute; left:525px; top:400px;font-size: 25px">
+            Search Products here:
+        </div>
+        <div style ="position:absolute; left:525px; top:450px;font-size: 25px">
+            <form action="FrontEnd" method="post">
+            <input type="hidden" name="pageName" value="search"/>
+            <input type="text" name='product'>
+            <input type='submit' value='Enter'>
+        </form>
+        </div>
+        
+    </body>
+</html>

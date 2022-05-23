@@ -1,0 +1,209 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: purchasedb-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: purchasedb
+spec:
+  selector:
+    app: purchasedb
+  ports:
+    - port: 3306
+      targetPort: 3306
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: purchasedb
+spec:
+  selector:
+    matchLabels:
+      app: purchasedb
+  template:
+    metadata:
+      labels:
+        app: purchasedb
+    spec:
+      containers:
+        - name: purchasedb
+          image: mpat247/coe692:purchasedb
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: storage
+              mountPath: /data/purchasedb
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: purchasedb-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: purchasedproduct
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: purchasedproduct
+  template:
+    metadata:
+      labels:
+        app: purchasedproduct
+    spec:
+      containers:
+        - name: purchasedproduct
+          image: mpat247/coe692:purchaseWebApp
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_URL
+              value: purchasedb:3306
+            - name: kubeMQAddress
+              value: 10.24.14.133:50000
+          imagePullPolicy: Always
+---
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: searchdb-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: searchdb
+spec:
+  selector:
+    app: searchdb
+  ports:
+    - port: 3306
+      targetPort: 3306
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: searchdb
+spec:
+  selector:
+    matchLabels:
+      app: searchdb
+  template:
+    metadata:
+      labels:
+        app: searchdb
+    spec:
+      containers:
+        - name: searchdb
+          image: mpat247/coe692:searchdb
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: storage
+              mountPath: /data/searchdb
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: searchdb-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: searchproduct
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: searchproduct
+  template:
+    metadata:
+      labels:
+        app: searchproduct
+    spec:
+      containers:
+        - name: searchbook
+          image: mpat247/coe692:searchWebApp
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_URL
+              value: searchdb:3306
+            - name: kubeMQAddress
+              value: 10.24.14.133:50000
+          imagePullPolicy: Always
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontendservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontendservice
+  template:
+    metadata:
+      labels:
+        app: frontendservice
+    spec:
+      containers:
+        - name: frontendservice
+          image: mpat247/coe692:frontendserviceWebApp
+          ports:
+            - containerPort: 8080
+          env:
+            - name: searchService
+              value: searchproduct:80
+
+            
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: purchasedproduct
+spec:
+  selector:
+    app: purchasedproduct
+  ports:
+    - port: 80
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: searchproduct
+spec:
+  selector:
+    app: searchproduct
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontendservice
+spec:
+  selector:
+    app: frontendservice
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: LoadBalancer

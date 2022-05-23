@@ -1,0 +1,6 @@
+ESHOP/Purchased/Business/Messaging.class
+ESHOP/Purchased/Endpoint/PurchaseResource.class
+ESHOP/Purchased/Helper/PurchasedProduct.class
+ESHOP/Purchased/Persistence/Purchase_Product_CRUD.class
+ESHOP/Purchased/Business/PurchaseBusiness.class
+ESHOP/Purchased/Endpoint/ApplicationConfig.class

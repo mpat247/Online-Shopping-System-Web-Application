@@ -1,0 +1,13 @@
+ESHOP/FrontEndService/FrontEnd/FrontEnd.class
+ESHOP/FrontEndService/Helper/CategoryInfo.class
+ESHOP/FrontEndService/Helper/ProductInfo.class
+ESHOP/FrontEndService/Persistance/User_Crud.class
+ESHOP/FrontEndService/FrontEnd/Authenticate.class
+ESHOP/FrontEndService/Helper/ProductsXML.class
+ESHOP/FrontEndService/Business/Business.class
+ESHOP/FrontEndService/Helper/Login.class
+ESHOP/FrontEndService/FrontEnd/RegisterServlet.class
+ESHOP/FrontEndService/Helper/UserInfo.class
+ESHOP/FrontEndService/Persistance/userconnect.class
+ESHOP/FrontEndService/Business/XMLParser.class
+ESHOP/FrontEndService/Persistance/UserDB.class
