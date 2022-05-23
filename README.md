@@ -1,5 +1,4 @@
-# Online-Shopping-System-Web-Application
- Online Shopping System Web Application
+# Online Shopping Store Web Application
  The project was done for the Software Design and Architecture Course with a partner.
  
  Allows users to create accounts, login, search for products, and check out the products.
